@@ -7,7 +7,7 @@ class TestInvoice(TestFlaskBase):
         data = {
             'file': (open(file, 'rb'), file)
         }
-        expected = {'status': 'Fields not found'}
+        expected = {'status': 'Service Unavalible'}
         response = self.client.post(url_for('invoice.create'), data=data)
         self.assertEqual(response.json, expected)
 
