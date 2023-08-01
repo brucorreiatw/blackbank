@@ -1,11 +1,11 @@
 import http
-from blackapi.repositories.rabbit import Rabbit 
+from blackapi.src.repositories.rabbit import Rabbit 
 from flask import Blueprint, request, jsonify
 from os import environ
 from json import dumps
 from uuid import uuid4
-from blackapi.exceptions.exceptions import InvalidRequest, PaymentNotProcessed
-from blackapi.utils.logger import logger
+from blackapi.src.exceptions.exceptions import InvalidRequest, PaymentNotProcessed
+from blackapi.src.utils.logger import logger
 
 bp_payment = Blueprint("payment", __name__)
 

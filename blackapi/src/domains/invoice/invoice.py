@@ -3,12 +3,12 @@ import pathlib
 import pandas as pd
 import uuid
 from os import environ
-from blackapi.repositories.rabbit import Rabbit 
+from blackapi.src.repositories.rabbit import Rabbit 
 from flask import Blueprint, request, jsonify
-from blackapi.exceptions.exceptions import FileNotFound, InvalidRequest, PaymentNotProcessed
+from blackapi.src.exceptions.exceptions import FileNotFound, InvalidRequest, PaymentNotProcessed
 from uuid import uuid4
 from json import dumps
-from blackapi.utils.logger import logger
+from blackapi.src.utils.logger import logger
 
 bp_invoice = Blueprint("invoice", __name__)
 
