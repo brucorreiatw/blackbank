@@ -4,7 +4,7 @@ export ENV_TEST
 
 venv:
 	python -m venv .venv
-	source .venv/bin/activate
+	. .venv/bin/activate 
 	pip install -r blackapi/requirements.txt
 
 unittests:
