@@ -14,6 +14,10 @@ jobs:
 
     - name: Run Tests
       run: |
-        pwd
-        ls -la
         make tests
+        make testreport
+        
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
