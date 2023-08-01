@@ -1,0 +1,52 @@
+version: "3"
+services:
+  blackapi:
+    container_name: blackapi
+    image: blackapi
+    build:
+      context: blackapi/
+    depends_on:
+      - rabbitmq
+
+    volumes:
+      - ./:/app
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./blackapi/.env
+    restart: always
+    command: flask run -h 0.0.0.0
+
+  blackconsumer:
+    container_name: blackconsumer
+    image: blackconsumer
+    build:
+      context: blackconsumer/
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./:/app
+    env_file:
+      - ./blackconsumer/.env
+    restart: always
+    command: python -u blackconsumer/run.py
+
+  rabbitmq3:
+    container_name: rabbitmq
+    image: rabbitmq:3.12-management-alpine
+    environment:
+        - RABBITMQ_DEFAULT_USER=myuser
+        - RABBITMQ_DEFAULT_PASS=mypassword
+    ports:
+        - '5672:5672'
+        - '15672:15672'
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=Postgres2022!
+    volumes:
+      - ./01-blackbank.sql:/docker-entrypoint-initdb.d/01-blackbank.sql
+    ports:
+      - "5432:5432"
