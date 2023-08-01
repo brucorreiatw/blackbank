@@ -1,4 +1,4 @@
-name: Deploy Front
+name: Tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     - main
 
 jobs:
-  deploy:
+  tests:
     runs-on: python
     steps:
     - name: Checkout
