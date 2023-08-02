@@ -22,3 +22,4 @@ class Credit(base):
     def execute(self):
         postgsql.insert(self)
         Debit.delete_byid(self.debtId)
+        logger.info(f"Credit computed!. {self.debtId} Removed!")
