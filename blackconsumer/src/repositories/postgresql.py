@@ -13,14 +13,18 @@ class Postgresql:
         db_string = f'postgresql://{self.config.USER}:{self.config.PASS}@{self.config.HOST}:{self.config.PORT}/blackbank'
         return create_engine(db_string)
 
-    def _set_session(self):
-        Session = sessionmaker(self.db)
+    def set_session(self):
+        Session = sessionmaker(self.db, expire_on_commit=False)
         return Session()
 
     def insert(self, operation):
-        session = self._set_session()
+        session = self.set_session()
         session.add(operation)
         session.commit()
-
+        session.flush()
+    
+    # def select(self, query):
+    #     session = self.set_session()
+    #     return session.execute(query).fetchall()
 
 postgsql = Postgresql()

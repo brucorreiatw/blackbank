@@ -1,6 +1,9 @@
 from sqlalchemy import Column, Float, Integer, String
 
 from src.models import base
+from src.repositories.postgresql import postgsql
+from src.utils.logger import logger
+from src.models.debit import Debit
 
 
 class Credit(base):
@@ -17,6 +20,5 @@ class Credit(base):
         self.paidBy = msg['paidBy']
 
     def execute(self):
-        # ver se tem debit
-        # caso positivo remov eo débito
-        pass
+        postgsql.insert(self)
+        Debit.delete_byid(self.debtId)

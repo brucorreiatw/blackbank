@@ -2,6 +2,8 @@ from sqlalchemy import Column, Float, Integer, String
 
 from src.models import base
 from src.repositories.postgresql import postgsql
+from src.utils.logger import logger
+from uuid import uuid4
 
 
 class Debit(base):
@@ -23,12 +25,24 @@ class Debit(base):
 
     def execute(self):
         postgsql.insert(self)
+        boleto = self._create_boleto(self.debtId, self.governmentId, self.debtAmount, self.debtAmount)
+        self._send_email(self.name, self.email, boleto)
 
-    def _insert_database(self):
-        ...
+    def _create_boleto(self, debitId, governmentId, debtAmount, debtDueDate):
+        logger.info(f'Creating boleto debitId: {debitId} governmentId: {governmentId} debtAmount: {debtAmount} debtDueDate: {debtDueDate}')
+        cod_boleto = uuid4()
+        return cod_boleto
 
-    def _create_boleto(self):
-        ...
-
-    def _send_email(self):
-        ...
+    def _send_email(self, name, email, boleto):
+        logger.info(f'Sending email name: {name} email: {email} boleto: {boleto}')
+        return True
+    
+    @classmethod
+    def delete_byid(cls, debtId):
+        try:
+            session = postgsql.set_session()
+            session.query(cls).filter(cls.debtId==debtId).delete()
+            session.commit()
+            session.flush()
+        except Exception as e:
+            logger.error(f'Debt not found {e}')
