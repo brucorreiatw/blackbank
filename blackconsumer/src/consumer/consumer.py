@@ -4,6 +4,8 @@ import json
 from src.repositories.postgresql import postgsql
 from src.repositories.rabbitmq import rbmq
 from src.utils.logger import logger
+from src.models.credit import Credit
+from src.models.debit import Debit
 
 
 class ConsumersManager:
@@ -50,13 +52,14 @@ class Consumer:
         try:
             operation = json.loads(data.decode('utf-8'))
             if operation['operation'] == 'debit':
-                print("DEBIT : ", operation)
-            else: 
-                print("CREDIT : ", operation)
+                debit = Debit(operation)
+                debit.execute()
+            else:
+                credit = Credit(operation)
+                credit.execute()
 
         except Exception as e:
             logger.error(f'Delivery tag: {method_frame.delivery_tag}, Error: {repr(e)}')
-            rbmq.insert_deadqueue(operation)
         
         finally:
             logger.info(f"Delivery tag: {method_frame.delivery_tag}, Finished ack")

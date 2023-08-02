@@ -32,6 +32,9 @@ run:
 stop:
 	docker-compose down
 
+logs:
+	docker-compose logs -f
+
 restart: stop run
 
 clean:

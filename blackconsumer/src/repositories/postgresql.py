@@ -10,7 +10,7 @@ class Postgresql:
         self.db = self._create_engine()
 
     def _create_engine(self):
-        db_string = f'postgresql://{self.config.USER}:{self.config.PASS}@{self.config.HOST}:{self.config.PORT}/'
+        db_string = f'postgresql://{self.config.USER}:{self.config.PASS}@{self.config.HOST}:{self.config.PORT}/blackbank'
         return create_engine(db_string)
 
     def _set_session(self):
