@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, Integer, String
+from sqlalchemy import Column, Float, Integer, String, Date
 
 from src.models import base
 from src.repositories.postgresql import postgsql
@@ -8,12 +8,12 @@ from uuid import uuid4
 
 class Debit(base):
     __tablename__ = 'Debits'
-    debtId = Column(String(100), primary_key=True)
+    debtId = Column(Integer, primary_key=True)
     name = Column(String(100))
     governmentId = Column(String(100))
     email = Column(String(100))
-    debtAmount = Column(String(100))
-    debtDueDate = Column(String(100))
+    debtAmount = Column(Float)
+    debtDueDate = Column(Date)
 
     def __init__(self, msg):
         self.debtId = msg['debtId']

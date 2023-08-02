@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, Integer, String
+from sqlalchemy import Column, Float, Integer, String, DateTime
 
 from src.models import base
 from src.repositories.postgresql import postgsql
@@ -8,9 +8,9 @@ from src.models.debit import Debit
 
 class Credit(base):
     __tablename__ = 'Credits'
-    debtId = Column(String(100), primary_key=True)
-    paidAt = Column(String(100))
-    paidAmount = Column(String(100))
+    debtId = Column(Integer, primary_key=True)
+    paidAt = Column(DateTime)
+    paidAmount = Column(Float)
     paidBy = Column(String(100))
 
     def __init__(self, msg):
